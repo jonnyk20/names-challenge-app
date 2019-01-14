@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import '../models/person_model.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'card_footer.dart';
 
 class CardList extends StatelessWidget {
-  final List<Person> people;
-
-  CardList(this.people);
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: people.length,
-      itemBuilder: (context, int index) {
-        return renderCard(people[index]);
-      },
-    );
+    return new StoreConnector<List<Person>, List<Person>>(
+        converter: (store) => store.state,
+        builder: (context, people) => ListView.builder(
+              itemCount: people.length,
+              itemBuilder: (context, int index) {
+                return renderCard(people[index]);
+              },
+            ));
   }
 
   Widget renderCard(Person person) {
@@ -31,7 +30,7 @@ class CardList extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 8.0),
           ),
           Text(person.name),
-          CardFooter(person.id),
+          CardFooter(person),
         ],
       ),
     );

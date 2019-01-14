@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
+import '../models/person_model.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import '../actions/index.dart';
 
 class CardFooter extends StatelessWidget {
-  int id;
+  final Person person;
 
-  CardFooter(this.id);
-
+  CardFooter(this.person);
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        RaisedButton(
-          child: Text('Correct: $id'),
-          onPressed: () => {},
-        ),
-        RaisedButton(
-          child: Text('InCorrect: $id'),
-          onPressed: () => {},
-        ),
-      ],
-    );
+    return StoreConnector<List<Person>, OnNameChanged>(converter: (store) {
+      return (person) => store.dispatch(ChangeName(person));
+    }, builder: (context, callback) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          RaisedButton(
+            child: Text('Correct: ${person.id}'),
+            onPressed: () {
+              callback(person);
+            },
+          ),
+          RaisedButton(
+            child: Text('InCorrect: ${person.id}'),
+            onPressed: () => {},
+          ),
+        ],
+      );
+    });
   }
 }
+
+typedef OnNameChanged = Function(Person person);
