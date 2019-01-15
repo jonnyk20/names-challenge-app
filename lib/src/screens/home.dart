@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 8.0),
             ),
-            renderButton(context, 'Remember NAmes', '/remember'),
+            renderButton(context, 'Remember Names', '/remember'),
           ],
         ),
       ),

@@ -5,7 +5,7 @@ import 'card_footer_answer.dart';
 import '../list_modes.dart';
 
 class CardList extends StatelessWidget {
-  ListModes listMode;
+  final ListModes listMode;
 
   CardList(this.listMode);
 
