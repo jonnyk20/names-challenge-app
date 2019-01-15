@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import './widgets/card_list.dart';
+import './screens/home.dart';
+import './screens/meet.dart';
+import './screens/remember.dart';
 import './models/person_model.dart';
 
 class App extends StatelessWidget {
@@ -11,15 +13,16 @@ class App extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new StoreProvider<List<Person>>(
-      store: store,
-      child: MaterialApp(
+        store: store,
+        child: MaterialApp(
           title: 'Names Challenge',
-          home: Scaffold(
-            appBar: AppBar(
-              title: Text('Names Challenge'),
-            ),
-            body: CardList(),
-          )),
-    );
+          routes: {
+            // When we navigate to the "/" route, build the FirstScreen Widget
+            '/': (context) => Home(),
+            // When we navigate to the "/second" route, build the SecondScreen Widget
+            '/meet': (context) => Meet(),
+            '/remember': (context) => Remember(),
+          },
+        ));
   }
 }

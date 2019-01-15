@@ -1,0 +1,1 @@
+enum ListModes { Meet, Remember }
