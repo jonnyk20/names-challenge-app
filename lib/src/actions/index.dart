@@ -1,7 +1,8 @@
 import '../models/person_model.dart';
 
-class ChangeName {
+class ChangeStatus {
   final Person person;
+  final PersonStatuses status;
 
-  ChangeName(this.person);
+  ChangeStatus(this.person, this.status);
 }

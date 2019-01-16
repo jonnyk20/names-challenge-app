@@ -2,8 +2,8 @@ import '../models/person_model.dart';
 import '../actions/index.dart';
 
 List<Person> appReducers(List<Person> people, dynamic action) {
-  if (action is ChangeName) {
-    return changeName(people, action);
+  if (action is ChangeStatus) {
+    return changeStatus(people, action);
   }
   //  else if (action is ToggleItemStateAction) {
   //   return toggleItemState(people, action);
@@ -11,11 +11,10 @@ List<Person> appReducers(List<Person> people, dynamic action) {
   return people;
 }
 
-List<Person> changeName(List<Person> people, action) {
-  print('----------------');
-  print(action.person);
+List<Person> changeStatus(List<Person> people, action) {
   var updatedPeople = people.map((person) {
-    person.name = (person.id == action.person.id) ? 'New Name' : person.name;
+    person.status =
+        (person.id == action.person.id) ? action.status : person.status;
     return person;
   });
   return updatedPeople.toList();
@@ -23,11 +22,4 @@ List<Person> changeName(List<Person> people, action) {
 
 // List<CartItem> addItem(List<CartItem> items, AddItemAction action) {
 //   return List.from(items)..add(action.item);
-// }
-
-// List<CartItem> toggleItemState(
-//     List<CartItem> items, ToggleItemStateAction action) {
-//   return items
-//       .map((item) => item.name == action.item.name ? action.item : item)
-//       .toList();
 // }

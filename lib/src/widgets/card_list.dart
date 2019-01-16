@@ -22,9 +22,20 @@ class CardList extends StatelessWidget {
   }
 
   Widget renderCard(Person person) {
+    MaterialColor color;
+    switch (person.status) {
+      case PersonStatuses.Forgotten:
+        color = Colors.red;
+        break;
+      case PersonStatuses.Remembered:
+        color = Colors.green;
+        break;
+      default:
+        color = Colors.grey;
+    }
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(color: color),
       ),
       padding: EdgeInsets.all(20.0),
       margin: EdgeInsets.all(20.0),

@@ -9,8 +9,9 @@ class CardFooterAnswer extends StatelessWidget {
   CardFooterAnswer(this.person);
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<List<Person>, OnNameChanged>(converter: (store) {
-      return (person) => store.dispatch(ChangeName(person));
+    return new StoreConnector<List<Person>, OnStatusChanged>(
+        converter: (store) {
+      return (person, status) => store.dispatch(ChangeStatus(person, status));
     }, builder: (context, callback) {
       return new CardFooterAnswerWidget(callback, person);
     });
@@ -18,39 +19,45 @@ class CardFooterAnswer extends StatelessWidget {
 }
 
 class CardFooterAnswerWidget extends StatefulWidget {
-  final OnNameChanged callback;
+  final OnStatusChanged callback;
   final Person person;
 
   CardFooterAnswerWidget(this.callback, this.person);
 
   @override
   State<StatefulWidget> createState() =>
-      new CardFooterAnswerWidgetState(person, callback, false);
+      new CardFooterAnswerWidgetState(person, callback);
 }
 
 class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
   Person person;
-  OnNameChanged callback;
-  bool showName;
+  OnStatusChanged callback;
+  bool showName = false;
+  bool showAnswerButtons = false;
+  bool showShowButton = true;
 
-  CardFooterAnswerWidgetState(this.person, this.callback, this.showName);
+  CardFooterAnswerWidgetState(this.person, this.callback);
 
   Widget build(BuildContext context) {
-    return StoreConnector<List<Person>, OnNameChanged>(converter: (store) {
-      return (person) => store.dispatch(ChangeName(person));
+    return StoreConnector<List<Person>, OnStatusChanged>(converter: (store) {
+      return (person, status) => store.dispatch(ChangeStatus(person, status));
     }, builder: (context, callback) {
       return Column(children: <Widget>[
         Padding(
           padding: EdgeInsets.only(bottom: 8.0),
         ),
-        showName ? renderAnswerButtons(callback) : renderShowButton(),
+        showName ? Text(person.name) : Container(),
+        showAnswerButtons ? renderAnswerButtons(callback) : Container(),
+        showShowButton ? renderShowButton() : Container(),
       ]);
     });
   }
 
-  toggkeShowName() {
+  toggleShowName() {
     setState(() {
       showName = true;
+      showAnswerButtons = true;
+      showShowButton = false;
     });
   }
 
@@ -58,33 +65,36 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
     return RaisedButton(
       child: Text('Show name'),
       onPressed: () {
-        toggkeShowName();
+        toggleShowName();
       },
     );
   }
 
   renderAnswerButtons(callback) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Text(person.name),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            RaisedButton(
-              child: Text('Correct: ${person.id}'),
-              onPressed: () {
-                callback(person);
-              },
-            ),
-            RaisedButton(
-              child: Text('InCorrect: ${person.id}'),
-              onPressed: () => {},
-            ),
-          ],
-        )
+        RaisedButton(
+          child: Text('Correct: ${person.id}'),
+          onPressed: () {
+            callback(person, PersonStatuses.Remembered);
+            setState(() {
+              showAnswerButtons = false;
+            });
+          },
+        ),
+        RaisedButton(
+          child: Text('Incorrect: ${person.id}'),
+          onPressed: () {
+            callback(person, PersonStatuses.Forgotten);
+            setState(() {
+              showAnswerButtons = false;
+            });
+          },
+        ),
       ],
     );
   }
 }
 
-typedef OnNameChanged = Function(Person person);
+typedef OnStatusChanged = Function(Person person, PersonStatuses status);
