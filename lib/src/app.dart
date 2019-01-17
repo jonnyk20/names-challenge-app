@@ -4,15 +4,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 import './screens/home.dart';
 import './screens/meet.dart';
 import './screens/remember.dart';
-import './models/person_model.dart';
+import './models/app_state_model.dart';
 
 class App extends StatelessWidget {
-  final Store<List<Person>> store;
+  final Store<AppState> store;
 
   App(this.store);
 
   Widget build(BuildContext context) {
-    return new StoreProvider<List<Person>>(
+    return new StoreProvider<AppState>(
         store: store,
         child: MaterialApp(
           title: 'Names Challenge',

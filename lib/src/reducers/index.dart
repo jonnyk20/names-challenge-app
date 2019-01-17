@@ -1,23 +1,24 @@
 import '../models/person_model.dart';
-import '../actions/index.dart';
+import '../models/app_state_model.dart';
+import '../actions/actions.dart';
 
-List<Person> appReducers(List<Person> people, dynamic action) {
+AppState appReducers(AppState state, dynamic action) {
   if (action is ChangeStatus) {
-    return changeStatus(people, action);
+    return changeStatus(state, action);
   }
   //  else if (action is ToggleItemStateAction) {
-  //   return toggleItemState(people, action);
+  //   return toggleItemState(state, action);
   // }
-  return people;
+  return state;
 }
 
-List<Person> changeStatus(List<Person> people, action) {
-  var updatedPeople = people.map((person) {
+AppState changeStatus(AppState state, action) {
+  var updatedPeople = state.people.map((Person person) {
     person.status =
         (person.id == action.person.id) ? action.status : person.status;
     return person;
   });
-  return updatedPeople.toList();
+  return new AppState(updatedPeople, state.activeDeck);
 }
 
 // List<CartItem> addItem(List<CartItem> items, AddItemAction action) {

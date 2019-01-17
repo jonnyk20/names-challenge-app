@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/person_model.dart';
+import '../models/app_state_model.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'card_footer_answer.dart';
 import '../list_modes.dart';
@@ -11,14 +12,19 @@ class CardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<List<Person>, List<Person>>(
+    return new StoreConnector<AppState, AppState>(
         converter: (store) => store.state,
-        builder: (context, people) => ListView.builder(
-              itemCount: people.length,
+        builder: (context, state) {
+          var fullList = state.people;
+          var activeList = state.activeDeck.personIds;
+          return ListView.builder(
+              itemCount: state.activeDeck.personIds.length,
               itemBuilder: (context, int index) {
-                return renderCard(people[index]);
-              },
-            ));
+                var person = fullList.firstWhere(
+                    (Person person) => person.id == activeList[index]);
+                return renderCard(person);
+              });
+        });
   }
 
   Widget renderCard(Person person) {

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'src/app.dart';
 import 'package:redux/redux.dart';
-import './src/models/person_model.dart';
 import './src/reducers/index.dart';
-import './src/people_fixture.dart';
+import './src/models/app_state_model.dart';
 
 void main() {
-  final store = new Store<List<Person>>(appReducers, initialState: peopleList);
+  final store = new Store<AppState>(
+    appReducers,
+    initialState: AppState.initial,
+  );
   runApp(App(store));
 }

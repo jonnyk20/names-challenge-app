@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/person_model.dart';
+import '../models/app_state_model.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../actions/index.dart';
+import '../actions/actions.dart';
 
 class CardFooterAnswer extends StatelessWidget {
   final Person person;
@@ -9,8 +10,7 @@ class CardFooterAnswer extends StatelessWidget {
   CardFooterAnswer(this.person);
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<List<Person>, OnStatusChanged>(
-        converter: (store) {
+    return new StoreConnector<AppState, OnStatusChanged>(converter: (store) {
       return (person, status) => store.dispatch(ChangeStatus(person, status));
     }, builder: (context, callback) {
       return new CardFooterAnswerWidget(callback, person);
@@ -39,7 +39,7 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
   CardFooterAnswerWidgetState(this.person, this.callback);
 
   Widget build(BuildContext context) {
-    return StoreConnector<List<Person>, OnStatusChanged>(converter: (store) {
+    return StoreConnector<AppState, OnStatusChanged>(converter: (store) {
       return (person, status) => store.dispatch(ChangeStatus(person, status));
     }, builder: (context, callback) {
       return Column(children: <Widget>[
