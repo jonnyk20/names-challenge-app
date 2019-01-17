@@ -8,8 +8,12 @@ class Meet extends StatelessWidget {
       appBar: AppBar(
         title: Text('Meet'),
       ),
-      body: Center(
-        child: CardList(ListModes.Meet),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new Expanded(child: CardList(ListModes.Meet)),
+        ],
       ),
     );
   }

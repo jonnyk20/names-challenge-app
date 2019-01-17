@@ -29,12 +29,12 @@ class CardFooterAnswerWidget extends StatefulWidget {
       new CardFooterAnswerWidgetState(person, callback);
 }
 
+enum CardStatus { Testing, Answering, Answered }
+
 class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
   Person person;
   OnStatusChanged callback;
-  bool showName = false;
-  bool showAnswerButtons = false;
-  bool showShowButton = true;
+  CardStatus cardStatus = CardStatus.Testing;
 
   CardFooterAnswerWidgetState(this.person, this.callback);
 
@@ -46,26 +46,26 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
         Padding(
           padding: EdgeInsets.only(bottom: 8.0),
         ),
-        showName ? Text(person.name) : Container(),
-        showAnswerButtons ? renderAnswerButtons(callback) : Container(),
-        showShowButton ? renderShowButton() : Container(),
+        cardStatus != CardStatus.Testing ? Text(person.name) : Container(),
+        cardStatus == CardStatus.Testing ? renderShowButton() : Container(),
+        cardStatus == CardStatus.Answering
+            ? renderAnswerButtons(callback)
+            : Container(),
       ]);
     });
   }
 
-  toggleShowName() {
+  toggleCardSstatus(CardStatus status) {
     setState(() {
-      showName = true;
-      showAnswerButtons = true;
-      showShowButton = false;
+      cardStatus = status;
     });
   }
 
   renderShowButton() {
     return RaisedButton(
-      child: Text('Show name'),
+      child: Text('Show Name'),
       onPressed: () {
-        toggleShowName();
+        toggleCardSstatus(CardStatus.Answering);
       },
     );
   }
@@ -79,7 +79,7 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
           onPressed: () {
             callback(person, PersonStatuses.Remembered);
             setState(() {
-              showAnswerButtons = false;
+              toggleCardSstatus(CardStatus.Answered);
             });
           },
         ),
@@ -88,7 +88,7 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
           onPressed: () {
             callback(person, PersonStatuses.Forgotten);
             setState(() {
-              showAnswerButtons = false;
+              toggleCardSstatus(CardStatus.Answered);
             });
           },
         ),
