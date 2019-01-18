@@ -12,20 +12,26 @@ class Meet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          new Container(
-              padding: EdgeInsets.all(20.0),
-              margin: EdgeInsets.all(20.0),
-              child: SizedBox(
-                width: double.infinity,
-                // height: double.infinity,
-                child: new RaisedButton(
-                  child: Text('Test Memory'),
-                  onPressed: () {},
-                ),
-              )),
           new Expanded(child: CardList(ListModes.Meet)),
+          renderButton(context),
         ],
       ),
     );
+  }
+
+  renderButton(context) {
+    return Container(
+        padding: EdgeInsets.all(20.0),
+        margin: EdgeInsets.all(20.0),
+        child: SizedBox(
+          width: double.infinity,
+          // height: double.infinity,
+          child: RaisedButton(
+            child: Text('Test Memory'),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/remember');
+            },
+          ),
+        ));
   }
 }

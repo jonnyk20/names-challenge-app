@@ -6,3 +6,5 @@ class ChangeStatus {
 
   ChangeStatus(this.person, this.status);
 }
+
+class Meet {}
