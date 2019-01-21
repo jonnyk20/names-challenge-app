@@ -44,7 +44,6 @@ class ListSettingsState extends State<ListSettings> {
       onChanged: (val) {
         if (val.isNotEmpty) {
           var listLength = int.parse(val);
-          print('listLength + 1: ${listLength + 1}');
           callback(listLength);
         }
       },

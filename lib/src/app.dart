@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import './screens/home.dart';
 import './screens/meet.dart';
 import './screens/remember.dart';
+import './screens/settings.dart';
 import './models/app_state_model.dart';
 
 class App extends StatelessWidget {
@@ -22,6 +23,7 @@ class App extends StatelessWidget {
             // When we navigate to the "/second" route, build the SecondScreen Widget
             '/meet': (context) => Meet(),
             '/remember': (context) => Remember(),
+            '/settings': (context) => Settings(),
           },
         ));
   }

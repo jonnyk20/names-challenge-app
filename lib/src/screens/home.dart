@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../models/app_state_model.dart';
 import '../actions/actions.dart';
-import '../widgets/list_settings.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -11,6 +10,7 @@ class Home extends StatelessWidget {
       return {
         'meet': () => store.dispatch(Meet()),
         'activeListExists': store.state.activeDeck.personIds.length > 0,
+        'listLength': store.state.listLength
       };
     }, builder: (context, props) {
       return Scaffold(
@@ -23,7 +23,8 @@ class Home extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
               ),
-              renderStartButton(context, 'Learn Names', '/meet', props['meet']),
+              renderStartButton(context, 'Learn (${props['listLength']}) Names',
+                  '/meet', props['meet']),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
               ),
@@ -33,12 +34,21 @@ class Home extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
               ),
-              ListSettings()
+              renderSettingsButton(context, 'Settings', '/settings'),
             ],
           ),
         ),
       );
     });
+  }
+
+  Widget renderSettingsButton(context, text, route) {
+    return RaisedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, route);
+      },
+      child: Text(text),
+    );
   }
 
   Widget renderStartButton(context, text, route, action) {

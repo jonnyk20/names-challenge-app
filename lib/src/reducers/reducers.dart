@@ -36,7 +36,6 @@ AppState changeStatus(AppState state, action) {
 }
 
 AppState changeListSize(AppState state, ChangeListSize action) {
-  print('Changing size to ${action.size}');
   state.updateListlength(action.size);
   return state;
 }
