@@ -8,3 +8,8 @@ class ChangeStatus {
 }
 
 class Meet {}
+
+class ChangeListSize {
+  final int size;
+  ChangeListSize(this.size);
+}

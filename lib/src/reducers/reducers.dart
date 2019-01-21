@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import '../models/person_model.dart';
 import '../models/app_state_model.dart';
 import '../models/deck_model.dart';
@@ -8,6 +9,8 @@ AppState appReducers(AppState state, dynamic action) {
     return changeStatus(state, action);
   } else if (action is Meet) {
     return meet(state);
+  } else if (action is ChangeListSize) {
+    return changeListSize(state, action);
   }
   //  else if (action is ToggleItemStateAction) {
   //   return toggleItemState(state, action);
@@ -16,7 +19,10 @@ AppState appReducers(AppState state, dynamic action) {
 }
 
 AppState meet(AppState state) {
-  var activeList = state.people.map((person) => person.id).toList();
+  var activeList = state.people
+      .sublist(0, math.min(state.listLength, state.people.length - 1))
+      .map((person) => person.id)
+      .toList();
   return new AppState(state.people, new Deck(activeList));
 }
 
@@ -27,6 +33,12 @@ AppState changeStatus(AppState state, action) {
     return person;
   }));
   return new AppState(updatedPeople, state.activeDeck);
+}
+
+AppState changeListSize(AppState state, ChangeListSize action) {
+  print('Changing size to ${action.size}');
+  state.updateListlength(action.size);
+  return state;
 }
 
 // List<CartItem> addItem(List<CartItem> items, AddItemAction action) {

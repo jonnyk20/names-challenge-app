@@ -2,7 +2,7 @@ import './models/person_model.dart';
 
 List<Person> createPeople() {
   final people = new List<Person>();
-  for (var i = 1; i < 6; i++) {
+  for (var i = 1; i < 11; i++) {
     people.add(new Person(i));
   }
   return people;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../models/app_state_model.dart';
 import '../actions/actions.dart';
+import '../widgets/list_settings.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -29,6 +30,10 @@ class Home extends StatelessWidget {
               props['activeListExists']
                   ? renderReviewButton(context, 'Return to Quiz', '/remember')
                   : Container(),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+              ),
+              ListSettings()
             ],
           ),
         ),
