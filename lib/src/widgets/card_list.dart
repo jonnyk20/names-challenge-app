@@ -16,9 +16,9 @@ class CardList extends StatelessWidget {
         converter: (store) => store.state,
         builder: (context, state) {
           var fullList = state.people;
-          var activeList = state.activeDeck.personIds;
+          var activeList = state.activeDeck;
           return ListView.builder(
-              itemCount: state.activeDeck.personIds.length,
+              itemCount: state.activeDeck.length,
               itemBuilder: (context, int index) {
                 var person = fullList.firstWhere(
                     (Person person) => person.id == activeList[index]);

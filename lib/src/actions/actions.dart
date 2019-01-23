@@ -7,9 +7,17 @@ class ChangeStatus {
   ChangeStatus(this.person, this.status);
 }
 
-class Meet {}
+class ChangeActiveDeck {
+  final List<num> activeDeck;
+  ChangeActiveDeck(this.activeDeck);
+}
 
 class ChangeListSize {
-  final int size;
-  ChangeListSize(this.size);
+  final int listSize;
+  ChangeListSize(this.listSize);
+}
+
+class ChangeLastIndex {
+  final int lastIndex;
+  ChangeLastIndex(this.lastIndex);
 }

@@ -1,43 +1,18 @@
-import 'dart:math' as math;
-import '../models/person_model.dart';
 import '../models/app_state_model.dart';
-import '../models/deck_model.dart';
-import '../actions/actions.dart';
+import '../reducers/peopleReducer.dart';
+import '../reducers/activeDeckReducer.dart';
+import '../reducers/listSizeReducer.dart';
+import '../reducers/lastIndexReducer.dart';
+
+// Todo, restructure reducers to look like:
+// https://github.com/brianegan/flutter_architecture_samples/blob/master/example/redux/lib/reducers/
 
 AppState appReducers(AppState state, dynamic action) {
-  if (action is ChangeStatus) {
-    return changeStatus(state, action);
-  } else if (action is Meet) {
-    return meet(state);
-  } else if (action is ChangeListSize) {
-    return changeListSize(state, action);
-  }
-  //  else if (action is ToggleItemStateAction) {
-  //   return toggleItemState(state, action);
-  // }
-  return state;
-}
-
-AppState meet(AppState state) {
-  var activeList = state.people
-      .sublist(0, math.min(state.listLength, state.people.length - 1))
-      .map((person) => person.id)
-      .toList();
-  return new AppState(state.people, new Deck(activeList));
-}
-
-AppState changeStatus(AppState state, action) {
-  var updatedPeople = List<Person>.from(state.people.map((Person person) {
-    person.status =
-        (person.id == action.person.id) ? action.status : person.status;
-    return person;
-  }));
-  return new AppState(updatedPeople, state.activeDeck);
-}
-
-AppState changeListSize(AppState state, ChangeListSize action) {
-  state.updateListlength(action.size);
-  return state;
+  return AppState(
+      people: peopleReducer(state.people, action),
+      activeDeck: activeDeckReducer(state.activeDeck, action),
+      listSize: listSizeReducer(state.listSize, action),
+      lastIndex: lastIndexReducer(state.lastIndex, action));
 }
 
 // List<CartItem> addItem(List<CartItem> items, AddItemAction action) {
