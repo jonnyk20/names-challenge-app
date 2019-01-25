@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/list_settings.dart';
+import '../widgets/debug_drawer.dart';
 
 class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class Settings extends StatelessWidget {
           ],
         ),
       ),
+      endDrawer: DebugDrawer(),
     );
   }
 }

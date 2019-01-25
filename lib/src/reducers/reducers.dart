@@ -9,6 +9,7 @@ import '../reducers/lastIndexReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) {
   return AppState(
+      debug: state.debug,
       people: peopleReducer(state.people, action),
       activeDeck: activeDeckReducer(state.activeDeck, action),
       listSize: listSizeReducer(state.listSize, action),

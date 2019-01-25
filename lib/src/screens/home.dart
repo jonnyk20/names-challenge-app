@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../models/app_state_model.dart';
 import '../actions/actions.dart';
+import '../widgets/debug_drawer.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -54,6 +55,7 @@ class Home extends StatelessWidget {
             ],
           ),
         ),
+        endDrawer: DebugDrawer(),
       );
     });
   }
