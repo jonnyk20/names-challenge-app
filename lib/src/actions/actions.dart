@@ -1,4 +1,5 @@
 import '../models/person_model.dart';
+import '../models/app_state_model.dart';
 
 class ChangeStatus {
   final Person person;
@@ -20,4 +21,11 @@ class ChangeListSize {
 class ChangeLastIndex {
   final int lastIndex;
   ChangeLastIndex(this.lastIndex);
+}
+
+class RetrieveStateFromStorage {}
+
+class LoadStateFromStorage {
+  final AppState state;
+  LoadStateFromStorage(this.state);
 }

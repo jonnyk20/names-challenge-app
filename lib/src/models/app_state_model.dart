@@ -15,6 +15,20 @@ class AppState {
     this.lastIndex = 0,
   });
 
+  AppState.fromJson(Map<String, dynamic> json)
+      : debug = json['debug'] == true,
+        listSize = json['listSize'],
+        lastIndex = json['lastIndex'],
+        activeDeck = [],
+        people = [];
+
+  Map<String, dynamic> toJson() =>
+      {'debug': debug, 'listSize': listSize, 'lastIndex': lastIndex};
+
   static var initial = AppState(people: peopleList);
   static var dev = AppState(people: peopleList, debug: true);
+
+  String toString() {
+    return 'lastIndex: $lastIndex, listSize: $listSize';
+  }
 }
