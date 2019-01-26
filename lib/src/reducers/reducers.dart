@@ -12,6 +12,9 @@ AppState appReducers(AppState state, dynamic action) {
   if (action is LoadStateFromStorage) {
     return action.state;
   }
+  if (action is ClearSettings) {
+    return state.debug ? AppState.dev : AppState.initial;
+  }
 
   return AppState(
       debug: state.debug,

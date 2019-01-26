@@ -34,3 +34,8 @@ Future<AppState> loadStateFromPrefs() async {
   Map stateMap = json.decode(stateString);
   return new AppState.fromJson(stateMap);
 }
+
+void clearSettings() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.remove(APP_STATE_KEY);
+}

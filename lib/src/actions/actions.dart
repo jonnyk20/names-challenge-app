@@ -29,3 +29,5 @@ class LoadStateFromStorage {
   final AppState state;
   LoadStateFromStorage(this.state);
 }
+
+class ClearSettings {}
