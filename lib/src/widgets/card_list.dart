@@ -44,7 +44,12 @@ class CardList extends StatelessWidget {
         border: Border.all(color: color),
       ),
       padding: EdgeInsets.all(20.0),
-      margin: EdgeInsets.all(20.0),
+      margin: EdgeInsets.only(
+        left: 20.0,
+        right: 20.0,
+        bottom: listMode == ListModes.Remember ? 20.0 : 0.0,
+        top: listMode == ListModes.Meet ? 20.0 : 0.0,
+      ),
       child: Column(
         children: <Widget>[
           Padding(
@@ -57,12 +62,15 @@ class CardList extends StatelessWidget {
     );
   }
 
-  renderFooter(person) {
+  renderFooter(Person person) {
     // you can adjust this values according to your accuracy requirements
     switch (listMode) {
       case ListModes.Meet:
         // do something
-        return new Container();
+        return new Container(
+          child: Text(person.name),
+          padding: EdgeInsets.only(top: 10.0),
+        );
       case ListModes.Remember:
         // do something else
         return CardFooterAnswer(person);

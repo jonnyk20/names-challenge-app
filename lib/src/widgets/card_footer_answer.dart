@@ -75,7 +75,7 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         RaisedButton(
-          child: Text('Correct: ${person.id}'),
+          child: Text('Correct'),
           onPressed: () {
             callback(person, PersonStatuses.Remembered);
             setState(() {
@@ -84,7 +84,7 @@ class CardFooterAnswerWidgetState extends State<CardFooterAnswerWidget> {
           },
         ),
         RaisedButton(
-          child: Text('Incorrect: ${person.id}'),
+          child: Text('Incorrect'),
           onPressed: () {
             callback(person, PersonStatuses.Forgotten);
             setState(() {

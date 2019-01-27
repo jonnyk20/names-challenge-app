@@ -20,7 +20,7 @@ class AppState {
         listSize = json['listSize'],
         lastIndex = json['lastIndex'],
         activeDeck = [],
-        people = [];
+        people = peopleList;
 
   Map<String, dynamic> toJson() =>
       {'debug': debug, 'listSize': listSize, 'lastIndex': lastIndex};

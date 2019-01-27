@@ -11,15 +11,15 @@ const String APP_STATE_KEY = "NAMES_CHALLENGE_APP_STATE";
 void listHistoryMiddleware(Store<AppState> store, action, NextDispatcher next) {
   next(action);
 
-  if (action is ChangeLastIndex || action is ChangeListSize) {
-    saveStateToPrefs(store.state);
-  }
+  // if (action is ChangeLastIndex || action is ChangeListSize) {
+  //   saveStateToPrefs(store.state);
+  // }
 
-  if (action is RetrieveStateFromStorage) {
-    loadStateFromPrefs().then((state) {
-      store.dispatch(new LoadStateFromStorage(state));
-    });
-  }
+  // if (action is RetrieveStateFromStorage) {
+  //   loadStateFromPrefs().then((state) {
+  //     store.dispatch(new LoadStateFromStorage(state));
+  //   });
+  // }
 }
 
 void saveStateToPrefs(AppState state) async {

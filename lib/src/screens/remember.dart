@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/card_list.dart';
 import '../list_modes.dart';
-import '../widgets/debug_drawer.dart';
+import '../widgets/stats.dart';
 
 class Remember extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -9,10 +9,14 @@ class Remember extends StatelessWidget {
       appBar: AppBar(
         title: Text('Remember'),
       ),
-      body: Center(
-        child: CardList(ListModes.Remember),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Stats(),
+          Expanded(child: CardList(ListModes.Remember)),
+        ],
       ),
-      endDrawer: DebugDrawer(),
     );
   }
 }
