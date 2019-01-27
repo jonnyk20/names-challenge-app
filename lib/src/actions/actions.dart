@@ -31,3 +31,8 @@ class LoadStateFromStorage {
 }
 
 class ClearSettings {}
+
+class AddPeople {
+  final List<Person> people;
+  AddPeople(this.people);
+}

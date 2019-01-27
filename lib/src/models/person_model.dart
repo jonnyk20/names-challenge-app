@@ -10,6 +10,11 @@ class Person {
     this.name = 'Person $id';
     this.status = PersonStatuses.New;
   }
+  Person.fromJson(dynamic json)
+      : id = json['id'],
+        imageUrl = json['jsonUrl'],
+        name = json['name'],
+        status = PersonStatuses.New;
 }
 
 enum PersonStatuses { New, Forgotten, Remembered }

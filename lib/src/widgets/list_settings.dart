@@ -18,6 +18,14 @@ class ListSettingsState extends State<ListSettings> {
     super.initState();
     // Start listening to changes
     myController.text = '0';
+    myController.addListener(_restictInput);
+  }
+
+  void _restictInput() {
+    if (myController.text != '' && int.parse(myController.text) > 100) {
+      myController.text = '100';
+      return;
+    }
   }
 
   @override
@@ -40,11 +48,8 @@ class ListSettingsState extends State<ListSettings> {
         },
         builder: (context, props) => Column(
               children: <Widget>[
+                Text('How Many People per Quiz (1-100)'),
                 renderTextField(props["listSize"], props["changelistSize"]),
-                RaisedButton(
-                  child: Text('Reset'),
-                  onPressed: props["reset"],
-                )
               ],
             ));
   }
@@ -59,7 +64,6 @@ class ListSettingsState extends State<ListSettings> {
           changeListSize(listSize);
         }
       },
-      // Todo: prevent 0, (JK)
       controller: myController,
     );
   }

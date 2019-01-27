@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/list_settings.dart';
-import '../widgets/debug_drawer.dart';
+import '../widgets/reset_settings.dart';
 
 class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -14,11 +14,13 @@ class Settings extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 8.0),
             ),
-            ListSettings()
+            ListSettings(),
           ],
         ),
       ),
-      endDrawer: DebugDrawer(),
+      bottomNavigationBar: BottomAppBar(
+        child: ResetSettings(),
+      ),
     );
   }
 }
