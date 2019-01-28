@@ -26,7 +26,13 @@ class Meet extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: RaisedButton(
-            child: Text('Test Memory'),
+            color: Colors.blue,
+            child: Text(
+              'Test Memory',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/remember');
             },

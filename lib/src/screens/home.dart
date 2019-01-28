@@ -33,6 +33,8 @@ class Home extends StatelessWidget {
         ),
         body: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
@@ -100,6 +102,7 @@ class Home extends StatelessWidget {
 
   Widget renderStartButton(context, text, route, action) {
     return RaisedButton(
+      color: Colors.blue,
       onPressed: () {
         // Navigate back to the first screen by popping the current route
         // off the stack
@@ -108,18 +111,29 @@ class Home extends StatelessWidget {
           Navigator.pushNamed(context, route);
         });
       },
-      child: Text(text),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 
   Widget renderReviewButton(context, text, route) {
     return RaisedButton(
+      color: Colors.blue,
       onPressed: () {
         _checkConnectivity(context, () {
           Navigator.pushNamed(context, route);
         });
       },
-      child: Text(text),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
