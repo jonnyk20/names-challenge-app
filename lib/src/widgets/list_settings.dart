@@ -61,7 +61,9 @@ class ListSettingsState extends State<ListSettings> {
       onChanged: (val) {
         if (val.isNotEmpty) {
           var listSize = int.parse(val);
-          changeListSize(listSize);
+          if (listSize <= 100 && listSize >= 0) {
+            changeListSize(listSize);
+          }
         }
       },
       controller: myController,

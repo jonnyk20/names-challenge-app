@@ -65,13 +65,18 @@ final additionaPeopleList = createAdditionalPeople();
 
 fetchPeople(startingIndex, dispatch) async {
   // Fetch 100 people
-  var res = await http.get('https://jsonplaceholder.typicode.com/posts/1');
+  print('Starting Index');
+  print(startingIndex);
+  var res =
+      await http.get('http://localhost:3000/images?index=${startingIndex + 1}');
   print("Fetched More");
   var parsed = json.decode(res.body);
-  print(parsed);
 
   // parse them into a list of people
+  List<Person> fetchedPeople = List<Person>.from(parsed.map((personData) {
+    return Person.fromJson(personData);
+  }));
 
   // send them into the state
-  dispatch(new AddPeople(additionaPeopleList));
+  dispatch(new AddPeople(fetchedPeople));
 }

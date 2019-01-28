@@ -10,16 +10,17 @@ class Home extends StatelessWidget {
     return StoreConnector<AppState, Map>(converter: (store) {
       return {
         'meet': () {
-          var nextLastIndex = math.min(
+          var listEnd = math.min(
             store.state.lastIndex + store.state.listSize,
             store.state.people.length - 1,
           );
           var activeList = store.state.people
-              .sublist(store.state.lastIndex, nextLastIndex)
+              .sublist(store.state.lastIndex, listEnd)
               .map((person) => person.id)
               .toList();
           store.dispatch(ChangeActiveDeck(activeList));
-          store.dispatch(ChangeLastIndex(nextLastIndex));
+          store.dispatch(
+              ChangeLastIndex(store.state.lastIndex + store.state.listSize));
         },
         'activeListExists': store.state.activeDeck.length > 0,
         'listSize': store.state.listSize
