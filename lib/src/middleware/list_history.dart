@@ -67,8 +67,8 @@ fetchPeople(startingIndex, dispatch) async {
   // Fetch 100 people
   print('Starting Index');
   print(startingIndex);
-  var res =
-      await http.get('http://localhost:3000/images?index=${startingIndex + 1}');
+  var res = await http
+      .get('https://names-challenge.herokuapp.com/images?index=$startingIndex');
   print("Fetched More");
   var parsed = json.decode(res.body);
 

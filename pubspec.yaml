@@ -23,6 +23,7 @@ dependencies:
   flutter_redux: ^0.5.2
   shared_preferences:
   http:
+  connectivity:
 
 dev_dependencies:
   flutter_test:

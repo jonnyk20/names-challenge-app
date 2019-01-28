@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:connectivity/connectivity.dart';
 import '../models/app_state_model.dart';
 import '../actions/actions.dart';
 
@@ -59,6 +60,35 @@ class Home extends StatelessWidget {
     });
   }
 
+  // user defined function
+  void _checkConnectivity(context, Function action) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("No Connection Detected"),
+            content: new Text("You need an internet connection to see images"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+    action();
+    // flutter defined function
+  }
+
   Widget renderSettingsButton(context, text, route) {
     return RaisedButton(
       onPressed: () {
@@ -73,8 +103,10 @@ class Home extends StatelessWidget {
       onPressed: () {
         // Navigate back to the first screen by popping the current route
         // off the stack
-        action();
-        Navigator.pushNamed(context, route);
+        _checkConnectivity(context, () {
+          action();
+          Navigator.pushNamed(context, route);
+        });
       },
       child: Text(text),
     );
@@ -83,7 +115,9 @@ class Home extends StatelessWidget {
   Widget renderReviewButton(context, text, route) {
     return RaisedButton(
       onPressed: () {
-        Navigator.pushNamed(context, route);
+        _checkConnectivity(context, () {
+          Navigator.pushNamed(context, route);
+        });
       },
       child: Text(text),
     );
