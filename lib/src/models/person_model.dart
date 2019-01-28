@@ -12,7 +12,7 @@ class Person {
   }
   Person.fromJson(dynamic json)
       : id = json['id'],
-        imageUrl = json['jsonUrl'],
+        imageUrl = json['details']['src']['medium'],
         name = json['name'],
         status = PersonStatuses.New;
 }

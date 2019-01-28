@@ -1,5 +1,9 @@
 import './person_model.dart';
-import '../people_fixture.dart';
+import '../first100.dart';
+
+List<Person> first100 = first100RawData.map((personData) {
+  return Person.fromJson(personData);
+}).toList();
 
 class AppState {
   final bool debug;
@@ -20,13 +24,13 @@ class AppState {
         listSize = json['listSize'],
         lastIndex = json['lastIndex'],
         activeDeck = [],
-        people = peopleList;
+        people = first100;
 
   Map<String, dynamic> toJson() =>
       {'debug': debug, 'listSize': listSize, 'lastIndex': lastIndex};
 
-  static var initial = AppState(people: peopleList);
-  static var dev = AppState(people: peopleList, debug: true);
+  static var initial = AppState(people: first100);
+  static var dev = AppState(people: first100, debug: true);
 
   String toString() {
     return 'lastIndex: $lastIndex, listSize: $listSize';
