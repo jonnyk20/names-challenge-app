@@ -36,7 +36,7 @@ class PersonCard extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            child: Image.network(person.imageUrl),
+            child: person.image,
             padding: EdgeInsets.only(bottom: 8.0),
           ),
           renderFooter(person),
