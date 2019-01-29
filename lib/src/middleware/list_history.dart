@@ -10,6 +10,19 @@ import '../models/person_model.dart';
 
 const String APP_STATE_KEY = "NAMES_CHALLENGE_APP_STATE";
 
+void saveStateToPrefs(AppState state) async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  var stateString = json.encode(state.toJson());
+  await preferences.setString(APP_STATE_KEY, stateString);
+}
+
+Future<AppState> loadStateFromPrefs() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  var stateString = preferences.getString(APP_STATE_KEY);
+  Map stateMap = json.decode(stateString);
+  return new AppState.fromJson(stateMap);
+}
+
 void listHistoryMiddleware(Store<AppState> store, action, NextDispatcher next) {
   next(action);
 
@@ -20,31 +33,18 @@ void listHistoryMiddleware(Store<AppState> store, action, NextDispatcher next) {
       fetchPeople(store.state.lastIndex, store.dispatch);
     }
 
-    // if (action is ChangeLastIndex || action is ChangeListSize) {
-    //   saveStateToPrefs(store.state);
-    // }
+    if (action is ChangeLastIndex || action is ChangeListSize) {
+      saveStateToPrefs(store.state);
+    }
 
-    // if (action is RetrieveStateFromStorage) {
-    //   loadStateFromPrefs().then((state) {
-    //     store.dispatch(new LoadStateFromStorage(state));
-    //   });
-    // }
+    if (action is RetrieveStateFromStorage) {
+      loadStateFromPrefs().then((state) {
+        store.dispatch(new LoadStateFromStorage(state));
+      });
+    }
     if (action is ClearSettings) {
       clearSettings();
     }
-  }
-
-  void saveStateToPrefs(AppState state) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var stateString = json.encode(state.toJson());
-    await preferences.setString(APP_STATE_KEY, stateString);
-  }
-
-  Future<AppState> loadStateFromPrefs() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var stateString = preferences.getString(APP_STATE_KEY);
-    Map stateMap = json.decode(stateString);
-    return new AppState.fromJson(stateMap);
   }
 }
 
