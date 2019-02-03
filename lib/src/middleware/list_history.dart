@@ -26,24 +26,22 @@ Future<AppState> loadStateFromPrefs() async {
 void listHistoryMiddleware(Store<AppState> store, action, NextDispatcher next) {
   next(action);
 
+  if (action is ChangeLastIndex || action is ChangeListSize) {
+    saveStateToPrefs(store.state);
+  }
+
+  if (action is RetrieveStateFromStorage) {
+    loadStateFromPrefs().then((state) {
+      store.dispatch(new LoadStateFromStorage(state));
+    });
+  }
+  if (action is ClearSettings) {
+    clearSettings();
+  }
   if (action is ChangeLastIndex) {
     if (store.state.lastIndex + 1 + store.state.listSize >=
         store.state.people.last.id) {
-      print("Fetching More");
       fetchPeople(store.state.lastIndex, store.dispatch);
-    }
-
-    if (action is ChangeLastIndex || action is ChangeListSize) {
-      saveStateToPrefs(store.state);
-    }
-
-    if (action is RetrieveStateFromStorage) {
-      loadStateFromPrefs().then((state) {
-        store.dispatch(new LoadStateFromStorage(state));
-      });
-    }
-    if (action is ClearSettings) {
-      clearSettings();
     }
   }
 }
@@ -64,12 +62,8 @@ List<Person> createAdditionalPeople() {
 final additionaPeopleList = createAdditionalPeople();
 
 fetchPeople(startingIndex, dispatch) async {
-  // Fetch 100 people
-  print('Starting Index');
-  print(startingIndex);
   var res = await http
       .get('https://names-challenge.herokuapp.com/images?index=$startingIndex');
-  print("Fetched More");
   var parsed = json.decode(res.body);
 
   // parse them into a list of people

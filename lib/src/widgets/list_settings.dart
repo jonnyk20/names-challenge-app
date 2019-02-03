@@ -12,18 +12,30 @@ class ListSettings extends StatefulWidget {
 }
 
 class ListSettingsState extends State<ListSettings> {
-  final myController = TextEditingController();
+  final listSizeController = TextEditingController();
+  final lastIndexController = TextEditingController();
 
   void initState() {
     super.initState();
     // Start listening to changes
-    myController.text = '0';
-    myController.addListener(_restictInput);
+    listSizeController.text = '0';
+    listSizeController.addListener(_restrictListSize);
+    lastIndexController.text = '0';
+    lastIndexController.addListener(_restrictLastIndex);
   }
 
-  void _restictInput() {
-    if (myController.text != '' && int.parse(myController.text) > 100) {
-      myController.text = '100';
+  void _restrictListSize() {
+    if (listSizeController.text != '' &&
+        int.parse(listSizeController.text) > 100) {
+      listSizeController.text = '100';
+      return;
+    }
+  }
+
+  void _restrictLastIndex() {
+    if (lastIndexController.text != '' &&
+        int.parse(lastIndexController.text) > 7999) {
+      lastIndexController.text = '7999';
       return;
     }
   }
@@ -31,30 +43,37 @@ class ListSettingsState extends State<ListSettings> {
   @override
   void dispose() {
     // Clean up the controller when the Widget is removed from the Widget tree
-    myController.dispose();
+    listSizeController.dispose();
     super.dispose();
   }
 
   Widget build(context) {
     return StoreConnector<AppState, Map>(
         converter: (store) {
-          myController.text = store.state.listSize.toString();
+          listSizeController.text = store.state.listSize.toString();
+          lastIndexController.text = store.state.lastIndex.toString();
           return {
             "listSize": store.state.listSize,
+            "lastIndex": store.state.lastIndex,
             "changelistSize": (int newDeckSize) =>
                 store.dispatch(ChangeListSize(newDeckSize)),
+            "changelastIndex": (int newLastIndex) =>
+                store.dispatch(ChangeLastIndex(newLastIndex)),
             "reset": () => store.dispatch(ClearSettings()),
           };
         },
         builder: (context, props) => Column(
               children: <Widget>[
                 Text('How Many People per Quiz (1-100)'),
-                renderTextField(props["listSize"], props["changelistSize"]),
+                renderListSizeInput(props["listSize"], props["changelistSize"]),
+                Text('Skip to Card Number on Next Quiz (0-7999)'),
+                renderLastIndexInput(
+                    props["lastIndex"], props["changelastIndex"]),
               ],
             ));
   }
 
-  renderTextField(listSize, changeListSize) {
+  renderListSizeInput(listSize, changeListSize) {
     return TextField(
       keyboardType: TextInputType.number,
       inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -66,7 +85,23 @@ class ListSettingsState extends State<ListSettings> {
           }
         }
       },
-      controller: myController,
+      controller: listSizeController,
+    );
+  }
+
+  renderLastIndexInput(lastIndex, changeLastIndex) {
+    return TextField(
+      keyboardType: TextInputType.number,
+      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+      onChanged: (val) {
+        if (val.isNotEmpty) {
+          var lastIndex = int.parse(val);
+          if (lastIndex <= 7999 && lastIndex >= 0) {
+            changeLastIndex(lastIndex);
+          }
+        }
+      },
+      controller: lastIndexController,
     );
   }
 }

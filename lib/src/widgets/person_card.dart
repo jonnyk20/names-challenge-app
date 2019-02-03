@@ -35,6 +35,19 @@ class PersonCard extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  '${person.id}',
+                  style: TextStyle(fontSize: 7.0),
+                  textAlign: TextAlign.right,
+                ),
+              ),
+            ],
+          ),
           Padding(
             child: person.image,
             padding: EdgeInsets.only(bottom: 8.0),
