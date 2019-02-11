@@ -1,9 +1,9 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:connectivity/connectivity.dart';
 import '../models/app_state_model.dart';
-import '../actions/actions.dart';
+import '../people_service.dart';
+import '../widgets/loading.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -11,20 +11,11 @@ class Home extends StatelessWidget {
     return StoreConnector<AppState, Map>(converter: (store) {
       return {
         'meet': () {
-          var listEnd = math.min(
-            store.state.lastIndex + store.state.listSize,
-            store.state.people.length - 1,
-          );
-          var activeList = store.state.people
-              .sublist(store.state.lastIndex, listEnd)
-              .map((person) => person.id)
-              .toList();
-          store.dispatch(ChangeActiveDeck(activeList));
-          store.dispatch(
-              ChangeLastIndex(store.state.lastIndex + store.state.listSize));
+          meet(store);
         },
         'activeListExists': store.state.activeDeck.length > 0,
-        'listSize': store.state.listSize
+        'listSize': store.state.listSize,
+        'isLoading': store.state.isLoading,
       };
     }, builder: (context, props) {
       return Scaffold(
@@ -36,14 +27,17 @@ class Home extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              props['isLoading'] ? LoadingWidget() : Container(),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
               ),
               renderStartButton(
-                  context,
-                  'Learn (${props['listSize']}) New Names',
-                  '/meet',
-                  props['meet']),
+                context,
+                'Learn (${props['listSize']}) New Names',
+                '/meet',
+                props['meet'],
+                props['isLoading'],
+              ),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
               ),
@@ -100,17 +94,19 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget renderStartButton(context, text, route, action) {
+  Widget renderStartButton(context, text, route, action, isLoading) {
     return RaisedButton(
       color: Colors.blue,
-      onPressed: () {
-        // Navigate back to the first screen by popping the current route
-        // off the stack
-        _checkConnectivity(context, () {
-          action();
-          Navigator.pushNamed(context, route);
-        });
-      },
+      onPressed: isLoading
+          ? null
+          : () {
+              // Navigate back to the first screen by popping the current route
+              // off the stack
+              _checkConnectivity(context, () {
+                action();
+                Navigator.pushNamed(context, route);
+              });
+            },
       child: Text(
         text,
         style: TextStyle(

@@ -11,12 +11,14 @@ class AppState {
   final List<num> activeDeck;
   int listSize;
   final int lastIndex;
+  final bool isLoading;
   AppState({
     this.debug = false,
     this.people = const [],
     this.activeDeck = const [],
     this.listSize = 10,
     this.lastIndex = 0,
+    this.isLoading = false,
   });
 
   AppState.fromJson(Map<String, dynamic> json)
@@ -24,7 +26,8 @@ class AppState {
         listSize = json['listSize'],
         lastIndex = json['lastIndex'],
         activeDeck = [],
-        people = first100;
+        people = first100,
+        isLoading = false;
 
   Map<String, dynamic> toJson() =>
       {'debug': debug, 'listSize': listSize, 'lastIndex': lastIndex};

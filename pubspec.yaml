@@ -25,6 +25,7 @@ dependencies:
   http:
   connectivity:
   cached_network_image:
+  redux_thunk:
 
 dev_dependencies:
   flutter_test:

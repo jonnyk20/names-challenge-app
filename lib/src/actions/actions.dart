@@ -36,3 +36,12 @@ class AddPeople {
   final List<Person> people;
   AddPeople(this.people);
 }
+
+class UpdatePeople {}
+
+class ChangeLoadingState {
+  final bool isLoading;
+  ChangeLoadingState(this.isLoading);
+}
+
+class Shuffle {}

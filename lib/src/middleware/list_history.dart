@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:redux/redux.dart';
-import 'package:http/http.dart' as http;
 
 import '../actions/actions.dart';
 import '../models/app_state_model.dart';
@@ -19,8 +18,11 @@ void saveStateToPrefs(AppState state) async {
 Future<AppState> loadStateFromPrefs() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var stateString = preferences.getString(APP_STATE_KEY);
-  Map stateMap = json.decode(stateString);
-  return new AppState.fromJson(stateMap);
+  if (stateString != null) {
+    Map stateMap = json.decode(stateString);
+    return new AppState.fromJson(stateMap);
+  }
+  return null;
 }
 
 void listHistoryMiddleware(Store<AppState> store, action, NextDispatcher next) {
@@ -32,17 +34,17 @@ void listHistoryMiddleware(Store<AppState> store, action, NextDispatcher next) {
 
   if (action is RetrieveStateFromStorage) {
     loadStateFromPrefs().then((state) {
-      store.dispatch(new LoadStateFromStorage(state));
+      if (state != null) {
+        store.dispatch(LoadStateFromStorage(state));
+      }
+      store.dispatch(UpdatePeople());
     });
   }
   if (action is ClearSettings) {
     clearSettings();
   }
-  if (action is ChangeLastIndex) {
-    if (store.state.lastIndex + 1 + store.state.listSize >=
-        store.state.people.last.id) {
-      fetchPeople(store.state.lastIndex, store.dispatch);
-    }
+  if (action is ChangeLastIndex || action is ChangeListSize) {
+    store.dispatch(UpdatePeople());
   }
 }
 
@@ -57,20 +59,4 @@ List<Person> createAdditionalPeople() {
     people.add(new Person(i));
   }
   return people;
-}
-
-final additionaPeopleList = createAdditionalPeople();
-
-fetchPeople(startingIndex, dispatch) async {
-  var res = await http
-      .get('https://names-challenge.herokuapp.com/images?index=$startingIndex');
-  var parsed = json.decode(res.body);
-
-  // parse them into a list of people
-  List<Person> fetchedPeople = List<Person>.from(parsed.map((personData) {
-    return Person.fromJson(personData);
-  }));
-
-  // send them into the state
-  dispatch(new AddPeople(fetchedPeople));
 }
